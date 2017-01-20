@@ -15,4 +15,28 @@ CHIP Mux {
 
     PARTS:
     // Put your code here:
+    /*
+    Not(in=a,out=nota);
+    Not(in=b,out=notb);
+    Not(in=sel,out=notsel);
+    And(a=nota,b=b,out=notaandb);
+    And(a=a,b=b,out=aandb);
+    And(a=a,b=notb,out=aandnotb);
+
+
+    And(a=notaandb,b=sel,out=notaandbands);
+    And(a=aandnotb,b=notsel,out=aandnotbandnots);
+    And(a=aandb,b=notsel,out=aandbandnots);
+    And(a=aandb,b=sel,out=aandbands);
+
+    Or(a=notaandbands,b=aandnotbandnots,out=firstor);
+    Or(a=aandbandnots,b=aandbands,out=secondor);
+    Or(a=firstor,b=secondor,out=out);
+    */
+    Not(in=sel,out=notsel);
+    And(a=notsel,b=a,out=notselanda);
+    And(a=sel,b=b,out=selandb);
+    Or(a=notselanda,b=selandb,out=out);
+
+
 }
