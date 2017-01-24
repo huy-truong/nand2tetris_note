@@ -43,12 +43,9 @@ CHIP ALU {
 
     PARTS:
    // Put you code here:
-   Not16(in=x,out=notx);
-   Inc16(in=notx,out=negx);
-   Add16(a=x,b=negx,out=zero);
    
    // if (zx == 1) set x = 0        // 16-bit constant
-   Mux16(a=x,b=zero,sel=zx,out=zxout);
+   Mux16(a=x,b=false,sel=zx,out=zxout);
    
   
    // if (nx == 1) set x = !x       // bitwise not
@@ -57,7 +54,7 @@ CHIP ALU {
    
     
    // if (zy == 1) set y = 0        // 16-bit constant
-   Mux16(a=y,b=zero,sel=zy,out=zyout);
+   Mux16(a=y,b=false,sel=zy,out=zyout);
    
    // if (ny == 1) set y = !y       // bitwise not
    Not16(in=zyout,out=notzyout);
@@ -73,17 +70,14 @@ CHIP ALU {
    
    // if (no == 1) set out = !out   // bitwise not
    Not16(in=fout,out=notfout);
-   Mux16(a=fout,b=notfout,sel=no,out=out);
    
-   Mux16(a=fout,b=notfout,sel=no,out=outtmp);
+   Mux16(a=fout,b=notfout,sel=no,out[15]=ng, out[0..7]=out07,out[8..15]=out815,out=out);
    
    // if (out == 0) set zr = 1
-   Or8Way(in=outtmp,out=or8way07notout);
-   //Or8Way(in=outtmp[8..15],out=or8way07notout);
-//Or(a=or8way07notout,b=or8way07notout,out=isnoout0);
-   //Mux(a=true,b=false,sel=isnoout0,out=zr);
-   // if (out < 0) set ng = 1
-   //Mux(a=false,b=true,sel=out[15],out=ng);
+   Or8Way(in=out07,out=or07out);
+   Or8Way(in=out815,out=or815out);
+   Or(a=or07out,b=or815out,out=or015out);
+   Not(in=or015out,out=zr);
    
    
    
