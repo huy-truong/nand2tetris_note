@@ -16,4 +16,7 @@ CHIP RAM8 {
 
     PARTS:
     // Put your code here:
+
+    Dmux8Way(in=in,sel=address,out=index);
+
 }
